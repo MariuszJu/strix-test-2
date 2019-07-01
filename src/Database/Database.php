@@ -34,10 +34,10 @@ class Database
      * @param bool|null $throwExceptions
      * @return bool
      */
-    public function throwExceptions($throwExceptions = null)
+    public function throwExceptions(bool $throwExceptions = null): bool
     {
         if (!is_null($throwExceptions)) {
-            $this->throwExceptions = (bool) $throwExceptions;
+            $this->throwExceptions = $throwExceptions;
         }
 
         return $this->throwExceptions;
@@ -49,7 +49,7 @@ class Database
      * @param string $sql
      * @return array
      */
-    public function raw($sql)
+    public function raw(string $sql): array
     {
         try {
             return $this->adapter->rawSql($sql);
@@ -68,7 +68,7 @@ class Database
      * @param string $sql
      * @return int
      */
-    public function rawExec($sql)
+    public function rawExec(string $sql): int
     {
         try {
             return $this->adapter->rawExecSql($sql);
@@ -90,7 +90,7 @@ class Database
      * @param int|null $offset
      * @return array
      */
-    public function select($table, array $columns = [], $limit = null, $offset = null)
+    public function select(string $table, array $columns = [], int $limit = null, int $offset = null): array
     {
         try {
             return $this->adapter->select($table, $columns, $limit, $offset);
@@ -110,7 +110,7 @@ class Database
      * @param array    $values
      * @return int|null
      */
-    public function insert($table, array $values)
+    public function insert(string $table, array $values): ?int
     {
         try {
             return $this->adapter->insert($table, $values);
@@ -177,7 +177,7 @@ class Database
      * @param string $column
      * @return bool
      */
-    public function updateRow($table, $id, array $values, $column = 'id')
+    public function updateRow(string $table, int $id, array $values, string $column = 'id'): bool
     {
         try {
             return $this->adapter->updateRow($table, $id, $values, $column);
@@ -186,7 +186,7 @@ class Database
                 throw $e;
             }
 
-            return null;
+            return false;
         }
     }
 
@@ -198,7 +198,7 @@ class Database
      * @param string $column
      * @return bool
      */
-    public function deleteRow($table, $id, $column = 'id')
+    public function deleteRow(string $table, int $id, string $column = 'id'): bool
     {
         try {
             return $this->adapter->deleteRow($table, $id, $column);
@@ -207,7 +207,7 @@ class Database
                 throw $e;
             }
 
-            return null;
+            return false;
         }
     }
 
@@ -219,7 +219,7 @@ class Database
      * @param string $column
      * @return array|null
      */
-    public function find($table, $value, $column = 'id')
+    public function find(string $table, $value, string $column = 'id'): ?array
     {
         try {
             return $this->adapter->find($table, $value, $column);

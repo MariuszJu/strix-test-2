@@ -42,10 +42,10 @@ final class Console
 
     /**
      * @param AbstractCommand $command
-     * @param string          $category
+     * @param string|null     $category
      * @return $this
      */
-    public function registerCommand(AbstractCommand $command, $category = null)
+    public function registerCommand(AbstractCommand $command, string $category = null)
     {
         $this->commands[$category ?: 'default'][] = $command;
 
@@ -83,7 +83,7 @@ final class Console
      * @param string|null $param
      * @return mixed
      */
-    public function params($param = null)
+    public function params(?string $param = null)
     {
         if (empty($param)) {
             return $this->params;
@@ -96,7 +96,7 @@ final class Console
      * @param string $commandName
      * @param array  $args
      */
-    public function runCommand($commandName, array $args = [])
+    public function runCommand(string $commandName, array $args = [])
     {
         try {
             $command = $this->searchCommand($commandName);
@@ -120,7 +120,7 @@ final class Console
      * @param mixed  $backgroundColor
      * @return $this
      */
-    public function write($text, $newLine = true, $color = null, $backgroundColor = null)
+    public function write(string $text, bool $newLine = true, $color = null, $backgroundColor = null)
     {
         $string = Runtime::isWindows() ? $text : $this->getColoredText($text, $color);
         echo $string;
@@ -130,9 +130,9 @@ final class Console
     }
 
     /**
-     * @return Console
+     * @return $this
      */
-    public function newLine()
+    public function newLine(): Console
     {
         return $this->write(PHP_EOL, false);
     }
@@ -142,7 +142,7 @@ final class Console
      * @param bool   $newLine
      * @return $this
      */
-    public function writeInfo($text, $newLine = true)
+    public function writeInfo(string $text, bool $newLine = true): Console
     {
         return $this->write($text, $newLine, self::COLOR_CYAN);
     }
@@ -152,7 +152,7 @@ final class Console
      * @param bool   $newLine
      * @return $this
      */
-    public function writeSuccess($text, $newLine = true)
+    public function writeSuccess(string $text, bool $newLine = true): Console
     {
         return $this->write($text, $newLine, self::COLOR_GREEN);
     }
@@ -162,7 +162,7 @@ final class Console
      * @param bool   $newLine
      * @return $this
      */
-    public function writeError($text, $newLine = true)
+    public function writeError(string $text, bool $newLine = true): Console
     {
         return $this->write($text, $newLine, self::COLOR_RED);
     }
@@ -172,7 +172,7 @@ final class Console
      * @param bool   $newLine
      * @return $this
      */
-    public function writeWarning($text, $newLine = true)
+    public function writeWarning(string $text, bool $newLine = true): Console
     {
         return $this->write($text, $newLine, self::COLOR_YELLOW);
     }
@@ -183,7 +183,7 @@ final class Console
      * @param mixed  $backgroundColor
      * @return string
      */
-    private function getColoredText($text, $color = null, $backgroundColor = null)
+    private function getColoredText(string $text, $color = null, $backgroundColor = null): string
     {
         return sprintf("%s[%sm%s%s[0m", chr(27), $color, $text, chr(27));
     }
@@ -193,7 +193,7 @@ final class Console
      * @param string $commandName
      * @return AbstractCommand
      */
-    private function searchCommand($commandName)
+    private function searchCommand(string $commandName): AbstractCommand
     {
         foreach ($this->commands as $category => $commands) {
             /** @var $commands AbstractCommand[] */
@@ -211,9 +211,8 @@ final class Console
      * @param string $signature
      * @param string $command
      * @param array  $params
-     * @return array
      */
-    private function parseParams($signature, $command, array $params = [])
+    private function parseParams(string $signature, string $command, array $params = [])
     {
         $matches = [];
 

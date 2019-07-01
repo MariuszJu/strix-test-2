@@ -50,7 +50,7 @@ final class Config
      * @param mixed  $default
      * @return mixed
      */
-    public function configKey($key, $default = null)
+    public function configKey(string $key, $default = null)
     {
         $keys = strpos($key, '.') !== false ? explode('.', $key) : [$key];
 

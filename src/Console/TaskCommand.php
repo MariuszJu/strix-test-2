@@ -23,7 +23,6 @@ class TaskCommand extends AbstractCommand
      */
     public function __construct(StrixService $service)
     {
-
         $this->service = $service;
     }
 

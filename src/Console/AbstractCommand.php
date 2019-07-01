@@ -19,7 +19,7 @@ abstract class AbstractCommand
      * @param string|null $param
      * @return mixed
      */
-    public function params($param = null)
+    public function params(?string $param = null)
     {
         return $this->console->params($param);
     }
@@ -28,7 +28,7 @@ abstract class AbstractCommand
      * @param Console|null $console
      * @return Console|null
      */
-    public function console(Console $console = null)
+    public function console(Console $console = null): ?Console
     {
         if (!is_null($console)) {
             $this->console = $console;

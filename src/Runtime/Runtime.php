@@ -13,7 +13,7 @@ final class Runtime
      * @throws \Exception
      * @return Request
      */
-    public static function request()
+    public static function request(): Request
     {
         return App::make(Request::class);
     }
@@ -21,7 +21,7 @@ final class Runtime
     /**
      * @return bool
      */
-    public static function isCommandLineInterface()
+    public static function isCommandLineInterface(): bool
     {
         if (strcasecmp(php_sapi_name(), 'cli') === 0) {
             return true;
@@ -45,7 +45,7 @@ final class Runtime
     /**
      * @return string
      */
-    public static function sapiName()
+    public static function sapiName(): string
     {
         return strtolower(php_sapi_name());
     }
@@ -53,7 +53,7 @@ final class Runtime
     /**
      * @return bool
      */
-    public static function isWindows()
+    public static function isWindows(): bool
     {
         return strpos(self::os(), 'win') !== false;
     }
@@ -61,7 +61,7 @@ final class Runtime
     /**
      * @return bool
      */
-    public static function isLinux()
+    public static function isLinux(): bool
     {
         return strpos(self::os(), 'linux') !== false;
     }
@@ -69,7 +69,7 @@ final class Runtime
     /**
      * @return string
      */
-    public static function os()
+    public static function os(): string
     {
         return strtolower(PHP_OS);
     }
@@ -78,7 +78,7 @@ final class Runtime
      * @throws \Exception
      * @return Config
      */
-    public static function config()
+    public static function config(): Config
     {
         return App::make(Config::class);
     }
@@ -87,7 +87,7 @@ final class Runtime
      * @throws \Exception
      * @return Console
      */
-    public static function console()
+    public static function console(): Console
     {
         if (!self::isCommandLineInterface()) {
             throw new \Exception('Could not instantiate Console class when not in CLI!');
@@ -99,27 +99,9 @@ final class Runtime
     /**
      * @return int
      */
-    public static function maxUploadFileSize()
+    public static function maxUploadFileSize(): int
     {
         return max((int) ini_get('post_max_size'), (int) ini_get('upload_max_filesize'));
-    }
-
-    /**
-     * @throws \Exception
-     * @return bool
-     */
-    public static function debug()
-    {
-        if ($setting = DatabaseHelper::table('tblconfiguration')
-            ->where('setting', 'LogErrors')
-            ->first()
-        ) {
-            $setting = (array) $setting;
-
-            return $setting['value'] == 'on';
-        }
-
-        return self::config()->configKey('debug', false);
     }
 
 }

@@ -19,7 +19,7 @@ class FlashMessage extends Facade
     /**
      * @return FlashMessageUtil
      */
-    public static function getService()
+    public static function getService(): FlashMessageUtil
     {
         return new FlashMessageUtil();
     }

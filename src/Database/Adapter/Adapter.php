@@ -9,13 +9,13 @@ interface Adapter
      * @param string $sql
      * @return array
      */
-    public function rawSql($sql);
+    public function rawSql(string $sql): array;
 
     /**
      * @param string $sql
      * @return int
      */
-    public function rawExecSql($sql);
+    public function rawExecSql(string $sql): int;
 
     /**
      * @param string   $table
@@ -24,14 +24,14 @@ interface Adapter
      * @param int|null $offset
      * @return array
      */
-    public function select($table, array $columns = [], $limit = null, $offset = null);
+    public function select(string $table, array $columns = [], int $limit = null, int $offset = null): array;
 
     /**
      * @param string $table
      * @param array  $values
-     * @return array
+     * @return int|null
      */
-    public function insert($table, array $values);
+    public function insert(string $table, array $values): ?int;
 
     /**
      * @param string $table
@@ -40,7 +40,7 @@ interface Adapter
      * @param string $column
      * @return bool
      */
-    public function updateRow($table, $id, array $values, $column = 'id');
+    public function updateRow(string $table, int $id, array $values, string $column = 'id'): bool;
 
     /**
      * @param string $table
@@ -48,7 +48,7 @@ interface Adapter
      * @param string $column
      * @return bool
      */
-    public function deleteRow($table, $id, $column);
+    public function deleteRow(string $table, int $id, string $column): bool;
 
     /**
      * @param string $table
@@ -56,7 +56,7 @@ interface Adapter
      * @param string $column
      * @return array|null
      */
-    public function find($table, $value, $column = 'id');
+    public function find(string $table, $value, string $column = 'id'): ?array;
 
     /**
      * @return void

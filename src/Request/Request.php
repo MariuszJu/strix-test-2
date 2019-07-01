@@ -39,7 +39,7 @@ class Request
     /**
      * @return string
      */
-    public function method()
+    public function method(): string
     {
         $method = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
 
@@ -53,7 +53,7 @@ class Request
     /**
      * @return string
      */
-    public function protocol()
+    public function protocol(): string
     {
         $protocol = filter_input(INPUT_SERVER, 'HTTPS');
         return $protocol && $protocol != 'off' ? 'HTTPS' : 'HTTP';
@@ -62,7 +62,7 @@ class Request
     /**
      * @return bool
      */
-    public function isPost()
+    public function isPost(): bool
     {
         return $this->method() == 'POST';
     }
@@ -70,7 +70,7 @@ class Request
     /**
      * @return bool
      */
-    public function isGet()
+    public function isGet(): bool
     {
         return $this->method() == 'GET';
     }
@@ -78,7 +78,7 @@ class Request
     /**
      * @return bool
      */
-    public function isAjax()
+    public function isAjax(): bool
     {
         return strtolower(filter_input(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH')) == 'xmlhttprequest';
     }
@@ -87,7 +87,7 @@ class Request
      * @param int|null $code
      * @return int
      */
-    public function httpCode($code = null)
+    public function httpCode(?int $code = null): int
     {
         return http_response_code($code);
     }
@@ -96,7 +96,7 @@ class Request
      * @param string|null $key
      * @return mixed
      */
-    public function post($key = null)
+    public function post(?string $key = null)
     {
         return !empty($key) ? filter_input(INPUT_POST, $key) : filter_input_array(INPUT_POST);
     }
@@ -104,7 +104,7 @@ class Request
     /**
      * @return array
      */
-    public function files()
+    public function files(): array
     {
         return $_FILES;
     }
@@ -113,7 +113,7 @@ class Request
      * @param string|null $key
      * @return mixed
      */
-    public function request($key = null)
+    public function request(?string $key = null)
     {
         return !empty($key) ? filter_input(INPUT_REQUEST, $key) : filter_input_array(INPUT_REQUEST);
     }
@@ -122,7 +122,7 @@ class Request
      * @param string|null $key
      * @return mixed
      */
-    public function get($key = null)
+    public function get(?string $key = null)
     {
         return $key ? filter_input(INPUT_GET, $key) : filter_input_array(INPUT_GET);
     }
@@ -131,7 +131,7 @@ class Request
      * @param bool $withoutQuery
      * @return string
      */
-    public function uri($withoutQuery = false)
+    public function uri(bool $withoutQuery = false): string
     {
         $uri = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL);
 
@@ -142,7 +142,7 @@ class Request
      * @param bool $withoutQuery
      * @return string
      */
-    public function url($withoutQuery = false)
+    public function url(bool $withoutQuery = false): string
     {
         $server = filter_input_array(INPUT_SERVER);
         $uri = $this->uri();
@@ -165,7 +165,7 @@ class Request
      * @param bool $asArray
      * @return string|array
      */
-    public function query($asArray = false)
+    public function query(bool $asArray = false)
     {
         $query = parse_url($this->uri());
         if (isset($query['query'])) {
@@ -197,7 +197,7 @@ class Request
      * @param string $filename
      * @return array|null
      */
-    public function file($filename)
+    public function file(string $filename): ?array
     {
         $files = $this->files();
         return isset($files[$filename]) ? $files[$filename] : null;
@@ -230,7 +230,7 @@ class Request
     /**
      * @return array
      */
-    public function input()
+    public function input(): array
     {
         $input = [];
 
@@ -260,7 +260,7 @@ class Request
     /**
      * @return string
      */
-    public function requestTime()
+    public function requestTime(): string
     {
         $time = (float) number_format(microtime(true) - self::$requestStart, 10);
 
@@ -279,7 +279,7 @@ class Request
      * @param string $url
      * @return string
      */
-    private function removeQueryFromUrl($url)
+    private function removeQueryFromUrl(string $url): string
     {
         $urlParts = parse_url($url);
         return $urlParts['scheme'] . '://' . $urlParts['host'] . ($urlParts['path'] ?: '');
